@@ -416,17 +416,6 @@ rotation = -0.6677065
 scale = Vector2(1.0000001, 1.0000002)
 shape = SubResource("RectangleShape2D_iw3ti")
 
-[node name="PuntoCasco" type="Marker2D" parent="." unique_id=427650193]
-position = Vector2(0, -9)
-
-[node name="PuntoPechera" type="Marker2D" parent="." unique_id=1824576059]
-visible = false
-position = Vector2(0, -3)
-
-[node name="PuntoBotas" type="Marker2D" parent="." unique_id=1612856321]
-visible = false
-position = Vector2(0, 2)
-
 [node name="PuntoMano" type="Marker2D" parent="." unique_id=570417407]
 visible = false
 position = Vector2(4, -10)
