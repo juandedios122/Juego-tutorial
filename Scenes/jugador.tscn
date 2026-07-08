@@ -16,6 +16,9 @@
 [ext_resource type="Texture2D" uid="uid://ntvlq4ju2w0l" path="res://Assets/sprites/characters/Player/New player/Modelo-personaje-derecha.png" id="8_yy7ku"]
 [ext_resource type="Texture2D" uid="uid://cgd7qvsrpfjgv" path="res://Assets/sprites/characters/Player/New player/Modelo-inactivo(costado).png" id="10_fr03m"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fr03m"]
+size = Vector2(11, 22)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bnm2g"]
 atlas = ExtResource("2_mb44e")
 region = Rect2(0, 0, 32, 30)
@@ -326,9 +329,6 @@ animations = [{
 "speed": 4.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_c1mnh"]
-radius = 5.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_tn1hq"]
 radius = 12.0415945
 
@@ -345,6 +345,10 @@ y_sort_enabled = true
 collision_layer = 3
 script = ExtResource("1_c1mnh")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=463384008]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_fr03m")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1081311818]
 position = Vector2(0, 16)
 sprite_frames = SubResource("SpriteFrames_shs2g")
@@ -353,15 +357,11 @@ frame = 1
 frame_progress = 0.9817335
 offset = Vector2(0, -15)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=463384008]
-position = Vector2(1, -2)
-shape = SubResource("CircleShape2D_c1mnh")
-
 [node name="Hitbox" type="Area2D" parent="." unique_id=1325304293]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1896297191]
-visible = false
-position = Vector2(0, -7)
+position = Vector2(-1, -1)
 shape = SubResource("CircleShape2D_tn1hq")
 
 [node name="attack_cooldown" type="Timer" parent="." unique_id=1740202839]
@@ -402,8 +402,8 @@ text = "Vivos: 0   Muertos: 0"
 script = ExtResource("5_n4xcq")
 
 [node name="Arma" type="Sprite2D" parent="." unique_id=1933940582]
-visible = false
-position = Vector2(9.999999, -6)
+position = Vector2(14.000002, -5.000001)
+rotation = 1.2042718
 scale = Vector2(0.40104166, 0.43125)
 texture = SubResource("AtlasTexture_isem0")
 offset = Vector2(10, 5)
