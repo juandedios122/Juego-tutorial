@@ -1,1 +1,2 @@
-res://Scenes/jugador.tscn
+res://Scenes/npc.tscn
+res://Scripts/Global.gd

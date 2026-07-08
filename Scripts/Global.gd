@@ -119,6 +119,7 @@ var best_wave     : int = 0
 signal wave_changed(numero: int)
 ## Emitida por el EnemySpawner al iniciar cada oleada.
 ## El HUD de mundo.gd la escucha para mostrar el anuncio de encuentro.
+@warning_ignore("unused_signal")
 signal wave_encounter_started(anuncio: String, color: Color)
 
 func set_current_wave(numero: int) -> void:
