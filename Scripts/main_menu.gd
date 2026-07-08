@@ -234,6 +234,7 @@ func _animar_release(btn: Control) -> void:
 # ─────────────────────────────────────────────────────────────────────────────
 func _on_jugar() -> void:
 	_guardar_nombre()
+	EnemyPool.limpiar_pool()
 	SceneTransition.ir_a("res://Scenes/mundo.tscn")
 
 func _on_salir() -> void:
