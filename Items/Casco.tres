@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bgoyjns2mkdkg"]
+
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_mx5ns"]
+[ext_resource type="Texture2D" uid="uid://lxcr8cpuef06" path="res://Items_png/Mascara.png" id="1_pyjld"]
+
+[resource]
+script = ExtResource("1_mx5ns")
+id = "Casco"
+nombre = "Mascara"
+descripcion = "Mascara de urocodaki"
+icono = ExtResource("1_pyjld")
+tipo = 2
+slot_equipo = 0
+defensa = 7
+escala_en_cuerpo = Vector2(1.9, 1.9)
+efecto = 1
+efecto_valor = 3
+valor = 3
+metadata/_custom_type_script = "uid://qoqmuduil5ei"

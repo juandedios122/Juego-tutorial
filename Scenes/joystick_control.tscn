@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cypesq13jloij"]
+
+[ext_resource type="Script" uid="uid://dxpmt8xv20pa8" path="res://Scripts/joystick.gd" id="1_6upi8"]
+[ext_resource type="Texture2D" uid="uid://cpr1blh3fom70" path="res://Assets/sprites/objects/joystick/LargeHandleFilledGrey.png" id="2_3bgxw"]
+[ext_resource type="Texture2D" uid="uid://5owtvw0cu153" path="res://Assets/sprites/objects/joystick/SmallHandleFilledGrey.png" id="3_7h3pb"]
+
+[node name="JoystickControl" type="Control" unique_id=1913280680]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = -236.0
+offset_right = 245.0
+offset_bottom = -56.0
+grow_vertical = 0
+script = ExtResource("1_6upi8")
+handle_texture = ExtResource("3_7h3pb")
+background_texture = ExtResource("2_3bgxw")
+
+[node name="Background" type="TextureRect" parent="." unique_id=819252426]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 200.0
+texture = ExtResource("2_3bgxw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Handle" type="TextureRect" parent="." unique_id=941894376]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 57.0
+offset_right = 150.0
+offset_bottom = 157.0
+texture = ExtResource("3_7h3pb")
+expand_mode = 1
+stretch_mode = 5

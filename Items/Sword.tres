@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dm86hw3iwbn65"]
+
+[ext_resource type="Texture2D" uid="uid://kqubg7bikeij" path="res://Items_png/Sword.png" id="1_5nuw4"]
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_jm3gf"]
+
+[resource]
+script = ExtResource("1_jm3gf")
+id = "Espada"
+nombre = "Espada de hierro"
+icono = ExtResource("1_5nuw4")
+tipo = 1
+espejo_en_mano = true
+efecto = 1
+efecto_valor = 1
+valor = 2

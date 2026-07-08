@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://death_screen_pm1"]
+
+[ext_resource type="Script" path="res://Scripts/pantalla_muerte.gd" id="1_pm"]
+
+[node name="PantallaMuserte" type="Node"]
+script = ExtResource("1_pm")

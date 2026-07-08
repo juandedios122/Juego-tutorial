@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://victory_screen_pv1"]
+
+[ext_resource type="Script" path="res://Scripts/pantalla_victoria.gd" id="1_pv"]
+
+[node name="PantallaVictoria" type="Node"]
+script = ExtResource("1_pv")

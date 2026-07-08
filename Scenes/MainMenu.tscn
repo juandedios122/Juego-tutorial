@@ -1,0 +1,305 @@
+[gd_scene format=3 uid="uid://boxf2qp3u0yid"]
+
+[ext_resource type="Script" uid="uid://cbrad60ti75yl" path="res://Scripts/main_menu.gd" id="1_mm"]
+[ext_resource type="Texture2D" uid="uid://b6vdpxnsug4cb" path="res://Assets/Menu/bg_menu.png" id="2_853f1"]
+[ext_resource type="Texture2D" uid="uid://dac2y82inixxa" path="res://Assets/Menu/Margen_perfil.png" id="3_8um5k"]
+[ext_resource type="Texture2D" uid="uid://hwvnbo3qnewc" path="res://Assets/Menu/Cambiar-avatar.png" id="4_xim88"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/BotonPixel.tscn" id="6_botonpixel"]
+
+[node name="MainMenu" type="Control" unique_id=2085897313]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mm")
+
+[node name="FondoColor" type="TextureRect" parent="." unique_id=204336299]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_853f1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PanelPerfil" type="Panel" parent="." unique_id=1509136053]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 16.0
+offset_right = 210.0
+offset_bottom = 241.0
+
+[node name="MargenPerfil" type="TextureRect" parent="PanelPerfil" unique_id=1537723229]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_8um5k")
+expand_mode = 1
+
+[node name="ContenedorAvatar" type="Panel" parent="PanelPerfil" unique_id=935176712]
+layout_mode = 1
+offset_left = 55.0
+offset_top = 12.0
+offset_right = 145.0
+offset_bottom = 102.0
+
+[node name="TexturaAvatar" type="TextureRect" parent="PanelPerfil/ContenedorAvatar" unique_id=643990093]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BotonCambiarAvatar" type="TextureButton" parent="PanelPerfil" unique_id=1523254012]
+layout_mode = 1
+offset_left = 22.0
+offset_top = 108.0
+offset_right = 178.0
+offset_bottom = 160.0
+texture_normal = ExtResource("4_xim88")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="InputNombre" type="LineEdit" parent="PanelPerfil" unique_id=1796906898]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 167.0
+offset_right = 194.0
+offset_bottom = 197.0
+placeholder_text = "Escribe tu nombre..."
+alignment = 1
+max_length = 20
+
+[node name="ContenedorCentro" type="VBoxContainer" parent="." unique_id=710932612]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -290.0
+offset_top = -490.0
+offset_right = 290.0
+offset_bottom = -20.0
+grow_horizontal = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BotonJugar" parent="ContenedorCentro" instance=ExtResource("6_botonpixel")]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+texto = "JUGAR"
+
+[node name="BotonAjustes" parent="ContenedorCentro" instance=ExtResource("6_botonpixel")]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+texto = "AJUSTES"
+
+[node name="BotonSalir" parent="ContenedorCentro" instance=ExtResource("6_botonpixel")]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+texto = "SALIR"
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=1269441753]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.72)
+
+[node name="SelectorAvatar" type="Panel" parent="." unique_id=783238813]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -240.0
+offset_right = 280.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MargenSelector" type="MarginContainer" parent="SelectorAvatar" unique_id=1845124771]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ColumnaSelector" type="VBoxContainer" parent="SelectorAvatar/MargenSelector" unique_id=1634011664]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CabeceraSelector" type="HBoxContainer" parent="SelectorAvatar/MargenSelector/ColumnaSelector" unique_id=1865328988]
+layout_mode = 2
+
+[node name="TituloSelector" type="Label" parent="SelectorAvatar/MargenSelector/ColumnaSelector/CabeceraSelector" unique_id=187060765]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🖼  Elige tu Avatar"
+
+[node name="BotonCerrarSelector" type="Button" parent="SelectorAvatar/MargenSelector/ColumnaSelector/CabeceraSelector" unique_id=1492521208]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+text = "✕"
+
+[node name="Pestañas" type="TabContainer" parent="SelectorAvatar/MargenSelector/ColumnaSelector" unique_id=1657285477]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Predeterminados" type="ScrollContainer" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas" unique_id=74254993]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 0
+
+[node name="GridAvatares" type="GridContainer" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas/Predeterminados" unique_id=141930]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 4
+
+[node name="Dispositivo" type="VBoxContainer" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas" unique_id=583844070]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+metadata/_tab_index = 1
+
+[node name="LabelDispositivo" type="Label" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas/Dispositivo" unique_id=186803511]
+layout_mode = 2
+text = "Selecciona una imagen de tu dispositivo
+(PNG, JPG, WEBP)"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="VistaPrevia" type="TextureRect" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas/Dispositivo" unique_id=1452422627]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_mode = 3
+stretch_mode = 5
+
+[node name="BotonExaminar" type="Button" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas/Dispositivo" unique_id=1901165582]
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "📂   Examinar..."
+
+[node name="BotonUsarImagen" type="Button" parent="SelectorAvatar/MargenSelector/ColumnaSelector/Pestañas/Dispositivo" unique_id=432029585]
+visible = false
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "✔   Usar esta imagen"
+
+[node name="PanelAjustes" type="Panel" parent="." unique_id=1892927554]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -210.0
+offset_right = 230.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MargenAjustes" type="MarginContainer" parent="PanelAjustes" unique_id=759262143]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 18
+
+[node name="ColumnaAjustes" type="VBoxContainer" parent="PanelAjustes/MargenAjustes" unique_id=59083485]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CabeceraAjustes" type="HBoxContainer" parent="PanelAjustes/MargenAjustes/ColumnaAjustes" unique_id=799725468]
+layout_mode = 2
+
+[node name="TituloAjustes" type="Label" parent="PanelAjustes/MargenAjustes/ColumnaAjustes/CabeceraAjustes" unique_id=1236303117]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚙   AJUSTES"
+
+[node name="BotonCerrarAjustes" type="Button" parent="PanelAjustes/MargenAjustes/ColumnaAjustes/CabeceraAjustes" unique_id=1814796221]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+text = "✕"
+
+[node name="SepAjustes" type="HSeparator" parent="PanelAjustes/MargenAjustes/ColumnaAjustes" unique_id=538681301]
+layout_mode = 2
+
+[node name="FilaMusica" type="VBoxContainer" parent="PanelAjustes/MargenAjustes/ColumnaAjustes" unique_id=275444552]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LabelMusica" type="Label" parent="PanelAjustes/MargenAjustes/ColumnaAjustes/FilaMusica" unique_id=281763213]
+layout_mode = 2
+text = "🎵  Volumen Música"
+
+[node name="SliderMusica" type="HSlider" parent="PanelAjustes/MargenAjustes/ColumnaAjustes/FilaMusica" unique_id=1420708941]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.8
+
+[node name="FilaSFX" type="VBoxContainer" parent="PanelAjustes/MargenAjustes/ColumnaAjustes" unique_id=2139458748]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LabelSFX" type="Label" parent="PanelAjustes/MargenAjustes/ColumnaAjustes/FilaSFX" unique_id=1596165539]
+layout_mode = 2
+text = "🔊  Volumen Efectos"
+
+[node name="SliderSFX" type="HSlider" parent="PanelAjustes/MargenAjustes/ColumnaAjustes/FilaSFX" unique_id=27650660]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SepAjustes2" type="HSeparator" parent="PanelAjustes/MargenAjustes/ColumnaAjustes" unique_id=1394898001]
+layout_mode = 2
+
+[node name="LabelExtra" type="Label" parent="PanelAjustes/MargenAjustes/ColumnaAjustes" unique_id=337048480]
+modulate = Color(0.6, 0.6, 0.7, 1)
+layout_mode = 2
+text = "Más ajustes próximamente..."
+horizontal_alignment = 1

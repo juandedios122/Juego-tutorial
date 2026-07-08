@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://cuxcigev2tuqc"]
+
+[ext_resource type="Script" uid="uid://cy2xmxnab1csf" path="res://Scripts/npc.gd" id="1_npc"]
+[ext_resource type="FontFile" uid="uid://dvppxlsbkf0s5" path="res://Assets/fonts/PressStart2P-Regular.ttf" id="2_font_title"]
+[ext_resource type="Texture2D" uid="uid://d1nl7dr40cxfe" path="res://Assets/sprites/characters/NPC/Npc_1.png" id="2_xxsvc"]
+[ext_resource type="FontFile" uid="uid://jcibf2jucpcg" path="res://Assets/fonts/VT323-Regular.ttf" id="3_font_body"]
+[ext_resource type="Texture2D" uid="uid://c3x7bleml0mml" path="res://Assets/sprites/heart/Scaled 3x/Inventory_9Slices.png" id="4_tex_dialogo"]
+[ext_resource type="Texture2D" uid="uid://bdbo5mytnc17u" path="res://Assets/sprites/heart/Scaled 2x/Inventory_9Slices.png" id="5_tex_boton"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6atyd"]
+atlas = ExtResource("2_xxsvc")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xkex"]
+atlas = ExtResource("2_xxsvc")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gudg"]
+atlas = ExtResource("2_xxsvc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qi7up"]
+atlas = ExtResource("2_xxsvc")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6atyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xkex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8gudg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qi7up")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 2.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interaccion"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cuerpo"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_boton_normal"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+texture = ExtResource("5_tex_boton")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_boton_pressed"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+texture = ExtResource("5_tex_boton")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_boton_hover"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+texture = ExtResource("5_tex_boton")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(1.15, 1.15, 1.15, 1)
+
+[node name="NPC" type="Node2D" unique_id=1740516409]
+script = ExtResource("1_npc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=336637699]
+sprite_frames = SubResource("SpriteFrames_npc")
+animation = &"Idle"
+frame_progress = 0.06626132
+flip_h = true
+
+[node name="ZonaInteraccion" type="Area2D" parent="." unique_id=531096493]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaInteraccion" unique_id=127666947]
+shape = SubResource("CircleShape2D_interaccion")
+
+[node name="Colision" type="StaticBody2D" parent="." unique_id=28084993]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colision" unique_id=776988612]
+shape = SubResource("CircleShape2D_cuerpo")
+
+[node name="UI_NPC" type="CanvasLayer" parent="." unique_id=1955303267]
+layer = 20
+
+[node name="BotonHablar" type="Button" parent="UI_NPC" unique_id=98290557]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -70.0
+offset_top = 20.0
+offset_right = 70.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(0.996, 0.749, 0.298, 1)
+theme_override_colors/font_outline_color = Color(0.22, 0.184, 0.208, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_font_title")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxTexture_boton_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_boton_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_boton_hover")
+theme_override_styles/focus = SubResource("StyleBoxTexture_boton_normal")
+text = "Hablar"
+
+[node name="PanelDialogo" type="Control" parent="UI_NPC" unique_id=1241921438]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Fondo" type="NinePatchRect" parent="UI_NPC/PanelDialogo" unique_id=1243324384]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -190.0
+offset_right = -20.0
+offset_bottom = -20.0
+texture = ExtResource("4_tex_dialogo")
+patch_margin_left = 18
+patch_margin_top = 18
+patch_margin_right = 18
+patch_margin_bottom = 18
+
+[node name="NombreNPC" type="Label" parent="UI_NPC/PanelDialogo/Fondo" unique_id=1059039436]
+layout_mode = 0
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.996, 0.749, 0.298, 1)
+theme_override_colors/font_outline_color = Color(0.22, 0.184, 0.208, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_font_title")
+theme_override_font_sizes/font_size = 10
+text = "Aldeano"
+
+[node name="TextoDialogo" type="Label" parent="UI_NPC/PanelDialogo/Fondo" unique_id=1144072543]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 52.0
+offset_right = -24.0
+offset_bottom = -40.0
+theme_override_colors/font_color = Color(0.922, 0.882, 0.843, 1)
+theme_override_colors/font_outline_color = Color(0.22, 0.184, 0.208, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 22
+text = "Bienvenido a este lugar mágico"
+autowrap_mode = 3
+
+[node name="Continuar" type="Label" parent="UI_NPC/PanelDialogo/Fondo" unique_id=1421393101]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -38.0
+offset_right = -24.0
+offset_bottom = -20.0
+theme_override_colors/font_color = Color(0.667, 0.62, 0.588, 1)
+theme_override_fonts/font = ExtResource("2_font_title")
+theme_override_font_sizes/font_size = 8
+text = "Toca para continuar ▼"
+horizontal_alignment = 2
