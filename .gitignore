@@ -1,0 +1,40 @@
+# ── Godot 4 ──────────────────────────────────────────────────────────────────
+# Carpeta de caché del editor y datos compilados. Se regenera automáticamente.
+.godot/
+
+# Archivos temporales que Godot crea durante crashes o edición activa.
+# Ejemplo del bug que causó este problema: jugador.tscn97334740758.tmp
+*.tmp
+
+# Presets de exportación (contienen rutas absolutas y a veces contraseñas
+# de keystore). Cometer export_presets.cfg genera conflictos en equipo.
+export_presets.cfg
+
+# Log del editor
+*.log
+
+# ── Android ──────────────────────────────────────────────────────────────────
+# Carpeta generada al exportar a Android. Nunca debe ir al repo.
+android/builds/
+
+# Keystore (NUNCA commitear — contiene clave privada de firma de la app)
+*.keystore
+*.jks
+
+# ── Archivos de sistema operativo ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDEs ─────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ── ARCHIVOS MUERTOS — elimina manualmente y luego commitea la eliminación ───
+# Los siguientes archivos existen en tu proyecto pero no deben estar:
+#   Scripts/PARCHE_jugador.gd  (código muerto, ya integrado en jugador.gd)
+# Para eliminarlos de Git si ya fueron commiteados:
+#   git rm Scripts/PARCHE_jugador.gd
+#   git commit -m "chore: eliminar archivo parche muerto"

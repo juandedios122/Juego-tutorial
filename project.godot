@@ -1,0 +1,55 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Tutorial 2.0"
+run/main_scene="res://Scenes/MainMenu.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
+boot_splash/use_filter=false
+boot_splash/image="uid://c3p47toyfjdm5"
+config/icon="uid://cshd1fxda0fje"
+
+[autoload]
+
+Global="*uid://bw40qe0ovg0s"
+Inventory="*res://Scripts/Inventory.gd"
+InventoryUI="*res://Scripts/InventoryUI.gd"
+EnemyPool="*res://Scripts/EnemyPool.gd"
+PauseManager="*res://Scripts/pause_manager.gd"
+SceneTransition="*res://Scripts/SceneTransition.gd"
+PostProcess="*res://Scripts/PostProcess.gd"
+VFX="*res://Scripts/VFX.gd"
+SFX="*res://Scripts/SFX.gd"
+Achievements="*uid://b2nc6jwu3yemi"
+
+[input]
+
+Attack={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"key_label":0,"unicode":120,"location":0,"echo":false,"script":null)
+]
+}
+Inventario={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":105,"location":0,"echo":false,"script":null)
+]
+}
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
