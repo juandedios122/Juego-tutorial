@@ -1,0 +1,15 @@
+res://Scenes/cliff_side.tscn::e1b61635014327defe325517accc9d52::1779152747::res://.godot/exported/133200997/export-103c043eb1e85488e63f1de733fabfbd-cliff_side.scn
+res://Scenes/joystick_control.tscn::8dc617513de16880d44c3f9c8c649671::1779141781::res://.godot/exported/133200997/export-196679b6070afb0de08320e2ea91f5f5-joystick_control.scn
+res://Scenes/jugador.tscn::d0d04c5e1e6db5997e86aa865b694110::1783458146::res://.godot/exported/133200997/export-b12803a5f656828b1d45f30d8e1b228f-jugador.scn
+res://Scenes/mundo.tscn::0b21b9c8940effa6c106221172c577f9::1783272919::res://.godot/exported/133200997/export-f14e70ae03d0416524ca0096933a8077-mundo.scn
+res://Scenes/boton_ataque.tscn::f11522605ab328f751cbec4cdf79b825::1781533705::res://.godot/exported/133200997/export-de17428a38d6e31ba9e1455f3c47e85b-boton_ataque.scn
+res://Scenes/mushroom.tscn::75fa468e56b01ccc8d26957395c189ff::1781387923::res://.godot/exported/133200997/export-bee78b8fd7a221566325fb17afc8940d-mushroom.scn
+res://Scenes/slime.tscn::d1c6357c65a9d39dca1ae6bde529f02d::1781806104::res://.godot/exported/133200997/export-247b4367e168830bf70cbd48b8d0aee8-slime.scn
+res://Scenes/npc.tscn::5d984877ca7adf56b064711c60c75c95::1781755116::res://.godot/exported/133200997/export-26e0d44d544a26e90be873026591bbea-npc.scn
+res://Scenes/MainMenu.tscn::34286c976e96b6da0effd8b2ec1a167d::1783369733::res://.godot/exported/133200997/export-5d46f2c25b5b7595677274e5845c73b8-MainMenu.scn
+res://Scenes/PantallaMuserte.tscn::ed8019c49482d10d48cf7fde959c6527::1782845855::res://.godot/exported/133200997/export-dea18df71b32676ea5d4af3277120713-PantallaMuserte.scn
+res://Scenes/PantallaVictoria.tscn::007a7f9e7ab5022473b3faee170519a9::1782847697::res://.godot/exported/133200997/export-8f2d6b9b9ae8112ff10c5f8eda103642-PantallaVictoria.scn
+res://Items/Casco.tres::ec5090165cd1786b04107d9af267a7a4::1783272861::res://.godot/exported/133200997/export-d0372288a0d2ae6ce8481ae5f1cbd6bf-Casco.res
+res://Items/Sword.tres::ee94cf4ddf220a6e0ea5bb93ef69e0df::1783272703::res://.godot/exported/133200997/export-b901e1e24d5860473dc4a56fb43795cf-Sword.res
+res://Scenes/UI/BotonPixel.tscn::9714b6b70d1bd77bfb2de32f1d0acacb::1783369733::res://.godot/exported/133200997/export-598d573aff5fcee7defde3480e787f49-BotonPixel.scn
+res://Scenes/ItemPickup.tscn::9586d48551a6b939624059365e506b68::1783114681::res://.godot/exported/133200997/export-e82860d63ffecd5f9570cc0e815e0cd9-ItemPickup.scn
