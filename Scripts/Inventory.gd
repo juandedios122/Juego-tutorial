@@ -17,12 +17,18 @@ const HOTBAR_SIZE : int = 9
 
 var slots: Array = []   # Array[Variant] → cada elemento es null o {item, cantidad}
 
+## Equipo puesto (distinto de la hotbar/mochila): un slot fijo por cada
+## valor de Item.SlotEquipo, cada uno null o {item, cantidad=1}.
+var equipo: Dictionary = {}
+
 ## Índice (0..HOTBAR_SIZE-1) del slot de la hotbar actualmente seleccionado,
 ## es decir, el "ítem en mano" del jugador para usar en el mundo.
 var slot_activo: int = 0
 
 signal inventario_cambiado
 signal slot_activo_cambiado(indice: int)
+## Emitida al equipar/desequipar una pieza de armadura (CASCO/PECHERA/BOTAS).
+signal equipo_cambiado(slot_equipo: int)
 ## Emitida cuando un ítem no cupo (inventario lleno) para que la UI muestre
 ## un aviso ("Inventario lleno").
 signal item_no_cupo(item: Item, cantidad: int)
@@ -30,6 +36,11 @@ signal item_no_cupo(item: Item, cantidad: int)
 
 func _ready() -> void:
 	slots.resize(num_slots)
+	equipo = {
+		Item.SlotEquipo.CASCO:   null,
+		Item.SlotEquipo.PECHERA: null,
+		Item.SlotEquipo.BOTAS:   null,
+	}
 	cargar_inventario()
 
 func seleccionar_slot_activo(indice: int) -> void:
@@ -173,6 +184,49 @@ func colocar_en_slot(indice: int, contenido) -> Variant:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
+#  EQUIPO  (casco / pechera / botas — distinto de los slots de hotbar/mochila)
+# ═════════════════════════════════════════════════════════════════════════════
+
+## Levanta la pieza puesta en `slot_equipo` (Item.SlotEquipo.CASCO/PECHERA/
+## BOTAS) y la deja vacía. Devuelve lo levantado o null si no había nada.
+func tomar_de_equipo(slot_equipo: int) -> Variant:
+	var contenido = equipo.get(slot_equipo)
+	if contenido == null:
+		return null
+	equipo[slot_equipo] = null
+	equipo_cambiado.emit(slot_equipo)
+	guardar_inventario()
+	return contenido
+
+## Intenta poner `contenido` en `slot_equipo`. Solo acepta ítems de tipo
+## ARMADURA cuyo `slot_equipo` coincida — cualquier otra cosa se devuelve
+## SIN cambios (rechazada), para que la UI la deje "en la mano" del jugador.
+## Si había una pieza puesta, esa pasa a ser lo que devuelve la función
+## (equivalente a "lo que queda en la mano" tras el intercambio).
+func colocar_en_equipo(slot_equipo: int, contenido) -> Variant:
+	if contenido == null:
+		return null
+	var item: Item = contenido["item"]
+	if item.tipo != Item.Tipo.ARMADURA or item.slot_equipo != slot_equipo:
+		return contenido
+
+	var anterior = equipo.get(slot_equipo)
+	equipo[slot_equipo] = contenido
+	equipo_cambiado.emit(slot_equipo)
+	guardar_inventario()
+	return anterior
+
+## Suma la `defensa` de todas las piezas puestas — usado por jugador.gd
+## para reducir el daño recibido.
+func obtener_defensa_total() -> int:
+	var total := 0
+	for contenido in equipo.values():
+		if contenido != null:
+			total += contenido["item"].defensa
+	return total
+
+
+# ═════════════════════════════════════════════════════════════════════════════
 #  CONSULTAS
 # ═════════════════════════════════════════════════════════════════════════════
 
@@ -234,6 +288,10 @@ func guardar_inventario() -> void:
 			cfg.set_value("slots", "id_%d" % i, slot["item"].id)
 			cfg.set_value("slots", "cant_%d" % i, slot["cantidad"])
 		i += 1
+	for slot_equipo in equipo.keys():
+		var contenido = equipo[slot_equipo]
+		if contenido != null:
+			cfg.set_value("equipo", "id_%d" % slot_equipo, contenido["item"].id)
 	cfg.set_value("meta", "num_slots", num_slots)
 	var err := cfg.save(RUTA_GUARDADO)
 	if err != OK:
@@ -256,5 +314,12 @@ func cargar_inventario() -> void:
 			continue
 		var item: Item = load(_registro_rutas[id])
 		slots[i] = {"item": item, "cantidad": cantidad}
+
+	for slot_equipo in equipo.keys():
+		var id: String = cfg.get_value("equipo", "id_%d" % slot_equipo, "")
+		if id == "" or not _registro_rutas.has(id):
+			continue
+		var item: Item = load(_registro_rutas[id])
+		equipo[slot_equipo] = {"item": item, "cantidad": 1}
 
 	inventario_cambiado.emit()

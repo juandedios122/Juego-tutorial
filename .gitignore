@@ -32,9 +32,3 @@ desktop.ini
 *.suo
 *.user
 
-# ── ARCHIVOS MUERTOS — elimina manualmente y luego commitea la eliminación ───
-# Los siguientes archivos existen en tu proyecto pero no deben estar:
-#   Scripts/PARCHE_jugador.gd  (código muerto, ya integrado en jugador.gd)
-# Para eliminarlos de Git si ya fueron commiteados:
-#   git rm Scripts/PARCHE_jugador.gd
-#   git commit -m "chore: eliminar archivo parche muerto"

@@ -30,6 +30,14 @@ VFX="*res://Scripts/VFX.gd"
 SFX="*res://Scripts/SFX.gd"
 Achievements="*uid://b2nc6jwu3yemi"
 
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/handheld/orientation="portrait"
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
 [input]
 
 Attack={

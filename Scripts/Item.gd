@@ -23,8 +23,16 @@ extends Resource
 ## como (si usas ItemPickup.tscn) en el sprite del objeto tirado en el mundo.
 @export var icono: Texture2D = null
 
-enum Tipo { CONSUMIBLE, ARMA, MATERIAL, LLAVE, MISC }
+enum Tipo { CONSUMIBLE, ARMA, ARMADURA, MATERIAL, LLAVE, MISC }
 @export var tipo: Tipo = Tipo.MISC
+
+## Solo se usa si `tipo == ARMADURA`: en qué slot de equipo va esta pieza.
+enum SlotEquipo { CASCO, PECHERA, BOTAS }
+@export var slot_equipo: SlotEquipo = SlotEquipo.PECHERA
+
+## Reduce el daño recibido mientras esta pieza está equipada (ver
+## jugador.gd → receive_damage()). Solo aplica si `tipo == ARMADURA`.
+@export var defensa: int = 0
 
 ## Cuántas unidades del mismo ítem pueden apilarse en un solo slot.
 ## Pon 1 para ítems únicos (armas, llaves) y más para consumibles/materiales.
@@ -51,6 +59,22 @@ enum Tipo { CONSUMIBLE, ARMA, MATERIAL, LLAVE, MISC }
 @export var espejo_en_mano: bool = false
 @export var rotacion_en_mano: float = 0.0
 @export var offset_en_mano: Vector2 = Vector2.ZERO
+
+## Solo se usa si `tipo == ARMADURA`: cómo se ve tu ícono puesto sobre el
+## personaje (ver jugador.gd → _actualizar_armadura_equipada()).
+##
+## La POSICIÓN base sale de un Marker2D en jugador.tscn (PuntoCasco/
+## PuntoPechera/PuntoBotas) que arrastras visualmente en el editor —
+## `offset_en_cuerpo` es un ajuste fino ENCIMA de esa posición (déjalo en
+## (0,0) para usar el marcador tal cual).
+##
+## El TAMAÑO se calcula automáticamente según la resolución de tu imagen,
+## para que cualquier imagen quede proporcionada al personaje sin importar
+## si es de 16px o 512px. `escala_en_cuerpo` es el ajuste fino sobre ese
+## tamaño automático (1.0 = tal cual, 1.2 = 20% más grande, 0.8 = 20% más
+## chico).
+@export var offset_en_cuerpo: Vector2 = Vector2.ZERO
+@export var escala_en_cuerpo: Vector2 = Vector2.ONE
 
 ## Si es true, aparece el botón "Usar" en el panel de acciones y se
 ## descuenta 1 unidad al usarlo, aplicando `efecto` sobre el jugador.

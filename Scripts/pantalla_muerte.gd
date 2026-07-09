@@ -241,7 +241,6 @@ func _on_usar_checkpoint() -> void:
 	Global.reset_xp_nivel()
 	Global.usar_checkpoint()   # sets start_from_wave = checkpoint_wave
 	Global.reset_wave()        # reinicia current_wave (el spawner lo rellenará)
-	EnemyPool.limpiar_pool()   # descarta enemigos de la sesión anterior (ya no existen)
 	SceneTransition.ir_a("res://Scenes/mundo.tscn")
 
 
@@ -251,7 +250,6 @@ func _on_reintentar() -> void:
 	Global.reset_xp_nivel()
 	Global.reset_wave()
 	Global.limpiar_checkpoint()
-	EnemyPool.limpiar_pool()
 	SceneTransition.ir_a("res://Scenes/mundo.tscn")
 
 
@@ -261,5 +259,4 @@ func _on_ir_menu() -> void:
 	Global.reset_xp_nivel()
 	Global.reset_wave()
 	Global.limpiar_checkpoint()
-	EnemyPool.limpiar_pool()
 	SceneTransition.ir_a("res://Scenes/MainMenu.tscn")

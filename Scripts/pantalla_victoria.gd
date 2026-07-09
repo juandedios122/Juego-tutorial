@@ -156,7 +156,6 @@ func _on_jugar_de_nuevo() -> void:
 	Global.reset_xp_nivel()
 	Global.reset_wave()
 	Global.limpiar_checkpoint()
-	EnemyPool.limpiar_pool()
 	SceneTransition.ir_a("res://Scenes/mundo.tscn")
 
 func _on_ir_menu() -> void:
@@ -165,5 +164,4 @@ func _on_ir_menu() -> void:
 	Global.reset_xp_nivel()
 	Global.reset_wave()
 	Global.limpiar_checkpoint()
-	EnemyPool.limpiar_pool()
 	SceneTransition.ir_a("res://Scenes/MainMenu.tscn")
