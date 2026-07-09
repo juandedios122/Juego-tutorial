@@ -47,9 +47,6 @@ var hotbar_en_panel     : HBoxContainer
 var label_info          : Label
 var boton_soltar        : Button
 
-var columna_equipo      : VBoxContainer
-var _botones_equipo     : Dictionary = {}   # Item.SlotEquipo -> Button
-
 var cursor_item   : Control
 var icono_cursor  : TextureRect
 var label_cursor  : Label
@@ -69,7 +66,6 @@ func _ready() -> void:
 	_aplicar_tema_visual()
 	Inventory.inventario_cambiado.connect(_refrescar_todo)
 	Inventory.slot_activo_cambiado.connect(_refrescar_hotbar_fija)
-	Inventory.equipo_cambiado.connect(_refrescar_equipo)
 	Inventory.item_no_cupo.connect(_on_item_no_cupo)
 	SceneTransition.escena_cambiada.connect(_on_cambio_escena)
 	_refrescar_todo()
@@ -221,20 +217,12 @@ func _construir_overlay_y_panel() -> void:
 	col.add_child(titulo)
 	col.add_child(HSeparator.new())
 
-	# ── Fila: equipo (casco/pechera/botas) a la izquierda + mochila ─────────
-	var fila_equipo_mochila := HBoxContainer.new()
-	fila_equipo_mochila.add_theme_constant_override("separation", 14)
-	col.add_child(fila_equipo_mochila)
-
-	columna_equipo = VBoxContainer.new()
-	columna_equipo.add_theme_constant_override("separation", 6)
-	fila_equipo_mochila.add_child(columna_equipo)
-
+	# ── Mochila ───────────────────────────────────────────────────────────
 	grid_mochila = GridContainer.new()
 	grid_mochila.columns = Inventory.HOTBAR_SIZE
 	grid_mochila.add_theme_constant_override("h_separation", 6)
 	grid_mochila.add_theme_constant_override("v_separation", 6)
-	fila_equipo_mochila.add_child(grid_mochila)
+	col.add_child(grid_mochila)
 
 	col.add_child(HSeparator.new())
 
@@ -250,7 +238,7 @@ func _construir_overlay_y_panel() -> void:
 	label_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label_info.autowrap_mode = TextServer.AUTOWRAP_WORD
 	label_info.custom_minimum_size = Vector2(0, 40)
-	label_info.text = "Toca un objeto para tomarlo. Otro slot lo coloca; los slots 🪖👕🥾 son para armaduras."
+	label_info.text = "Toca un objeto para tomarlo. Otro slot lo coloca, lo mezcla o lo intercambia."
 	col.add_child(label_info)
 
 	var fila_botones := HBoxContainer.new()
@@ -266,25 +254,9 @@ func _construir_overlay_y_panel() -> void:
 	btn_cerrar.pressed.connect(_cerrar)
 	fila_botones.add_child(btn_cerrar)
 
-	_construir_slots_equipo()
 	_construir_slots_mochila()
 	_construir_slots_hotbar_panel()
 
-
-func _construir_slots_equipo() -> void:
-	var etiquetas := {
-		Item.SlotEquipo.CASCO:   "🪖",
-		Item.SlotEquipo.PECHERA: "👕",
-		Item.SlotEquipo.BOTAS:   "🥾",
-	}
-	for slot_equipo in [Item.SlotEquipo.CASCO, Item.SlotEquipo.PECHERA, Item.SlotEquipo.BOTAS]:
-		var boton := Button.new()
-		boton.custom_minimum_size = Vector2(TAMANO_SLOT, TAMANO_SLOT)
-		boton.focus_mode = Control.FOCUS_NONE
-		boton.text = etiquetas[slot_equipo]
-		boton.pressed.connect(_on_slot_equipo_pulsado.bind(slot_equipo))
-		columna_equipo.add_child(boton)
-		_botones_equipo[slot_equipo] = boton
 
 func _construir_slots_mochila() -> void:
 	for i in range(Inventory.HOTBAR_SIZE, Inventory.num_slots):
@@ -376,24 +348,6 @@ func _on_slot_inventario_pulsado(indice: int) -> void:
 
 	_actualizar_cursor_visual()
 
-func _on_slot_equipo_pulsado(slot_equipo: int) -> void:
-	if _item_en_mano == null:
-		var contenido = Inventory.tomar_de_equipo(slot_equipo)
-		if contenido != null:
-			_item_en_mano = contenido
-			_mostrar_info(contenido["item"])
-	else:
-		var item: Item = _item_en_mano["item"]
-		if item.tipo != Item.Tipo.ARMADURA or item.slot_equipo != slot_equipo:
-			label_info.text = "Ese objeto no va en ese slot de equipo."
-			return
-		var anterior = Inventory.colocar_en_equipo(slot_equipo, _item_en_mano)
-		_item_en_mano = anterior
-		if anterior != null:
-			_mostrar_info(anterior["item"])
-
-	_actualizar_cursor_visual()
-
 func _on_soltar_pulsado() -> void:
 	if _item_en_mano == null:
 		label_info.text = "No tienes nada en la mano."
@@ -433,8 +387,6 @@ func _on_item_no_cupo(item: Item, _cantidad: int) -> void:
 # ═════════════════════════════════════════════════════════════════════════════
 func _refrescar_todo() -> void:
 	_refrescar_hotbar_fija(Inventory.slot_activo)
-	for slot_equipo in _botones_equipo.keys():
-		_pintar_slot_equipo(slot_equipo)
 	for i in range(_botones_mochila.size()):
 		_pintar_slot(_botones_mochila[i], Inventory.HOTBAR_SIZE + i, false)
 	for i in range(_botones_hotbar_panel.size()):
@@ -443,33 +395,6 @@ func _refrescar_todo() -> void:
 func _refrescar_hotbar_fija(_indice_activo: int) -> void:
 	for i in range(botones_hotbar_fija.size()):
 		_pintar_slot(botones_hotbar_fija[i], i, i == Inventory.slot_activo)
-
-func _refrescar_equipo(slot_equipo: int) -> void:
-	_pintar_slot_equipo(slot_equipo)
-
-func _pintar_slot_equipo(slot_equipo: int) -> void:
-	var boton: Button = _botones_equipo[slot_equipo]
-	var contenido = Inventory.equipo.get(slot_equipo)
-
-	for hijo in boton.get_children():
-		hijo.queue_free()
-	_estilizar_boton_slot(boton, false)
-
-	if contenido == null:
-		boton.text = {
-			Item.SlotEquipo.CASCO:   "🪖",
-			Item.SlotEquipo.PECHERA: "👕",
-			Item.SlotEquipo.BOTAS:   "🥾",
-		}[slot_equipo]
-		return
-
-	boton.text = ""
-	var icono := TextureRect.new()
-	icono.texture = contenido["item"].icono
-	icono.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icono.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	icono.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	boton.add_child(icono)
 
 func _pintar_slot(boton: Button, indice_dato: int, seleccionado: bool) -> void:
 	for hijo in boton.get_children():
@@ -535,8 +460,7 @@ func _aplicar_tema_visual() -> void:
 	_estilizar_boton_generico(boton_soltar)
 	for hijo in raiz.find_children("*", "Button", true, false):
 		if hijo not in botones_hotbar_fija and hijo not in _botones_mochila \
-				and hijo not in _botones_hotbar_panel and hijo not in _botones_equipo.values() \
-				and hijo != boton_toggle:
+				and hijo not in _botones_hotbar_panel and hijo != boton_toggle:
 			_estilizar_boton_generico(hijo)
 
 func _estilizar_panel(panel: Panel) -> void:

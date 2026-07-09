@@ -16,13 +16,10 @@ extends CharacterBody2D
 @onready var arma        = $Arma
 @onready var hitbox_arma = $Arma/HitboxArma
 
-# ── Puntos de anclaje (Marker2D) ──────────────────────────────────────────
-# Arrástralos en el editor 2D (con la escena jugador.tscn abierta) hasta
-# donde quieras que quede cada cosa — nada de números a ciegas. El código
-# solo lee su posición.
-@onready var punto_casco   : Marker2D = $PuntoCasco
-@onready var punto_pechera : Marker2D = $PuntoPechera
-@onready var punto_botas   : Marker2D = $PuntoBotas
+# ── Punto de anclaje (Marker2D) para el arma ──────────────────────────────
+# Arrástralo en el editor 2D (con la escena jugador.tscn abierta) hasta
+# donde quieras que quede — nada de números a ciegas. El código solo lee
+# su posición.
 @onready var punto_mano    : Marker2D = $PuntoMano
 
 # ─── Stats del Jugador ───────────────────────────────────────────────────────
@@ -65,12 +62,6 @@ var heart_textures   : Array         = []
 var _textura_arma_defecto : Texture2D = null
 var _escala_arma_defecto  : Vector2   = Vector2.ONE
 
-# Un Sprite2D por cada slot de equipo (CASCO/PECHERA/BOTAS), creado en
-# _ready(). Godot no tiene estos nodos en la escena porque no sabíamos qué
-# arte ibas a usar — se crean en código y se posicionan con los valores
-# `offset_en_cuerpo`/`escala_en_cuerpo` que pongas en cada Item.
-var _overlays_armadura : Dictionary = {}
-
 func player():
 	pass
 
@@ -97,12 +88,6 @@ func _ready():
 	Inventory.slot_activo_cambiado.connect(func(_indice): _actualizar_arma_equipada())
 	Inventory.inventario_cambiado.connect(_actualizar_arma_equipada)
 	_actualizar_arma_equipada()
-
-	# ── Armadura equipada (casco/pechera/botas) ─────────────────────────────
-	_crear_overlays_armadura()
-	Inventory.equipo_cambiado.connect(func(_slot): _actualizar_armadura_equipada())
-	Inventory.inventario_cambiado.connect(_actualizar_armadura_equipada)
-	_actualizar_armadura_equipada()
 
 	# ── Cargar las texturas de los corazones ────────────────────────────────
 	var sheet := load("res://Assets/sprites/heart/Scaled 2x/Health_04_Heart_Red.png")
@@ -291,9 +276,6 @@ func play_anim(movement):
 			if movement == 1: anim.play("Back_Walk")
 			elif not attack_ip: anim.play("Back_Idle")
 
-	for overlay in _overlays_armadura.values():
-		overlay.flip_h = anim.flip_h
-
 # ─────────────────────────────────────────────────────────────────────────────
 #  DAÑO RECIBIDO
 # ─────────────────────────────────────────────────────────────────────────────
@@ -313,11 +295,7 @@ func receive_damage(amount: int) -> void:
 	if not enemy_attack_cooldown or not player_alive:
 		return
 
-	# La armadura equipada reduce el daño, pero SIEMPRE deja pasar al menos
-	# 1 punto — así nunca queda el jugador totalmente invulnerable por
-	# acumular defensa (evita romper el balance de las oleadas).
-	var defensa: int = Inventory.obtener_defensa_total()
-	var amount_final: int = max(1, amount - defensa)
+	var amount_final: int = amount
 
 	health -= amount_final
 	health  = max(0, health)
@@ -558,80 +536,6 @@ func _actualizar_arma_equipada() -> void:
 	else:
 		arma.texture = _textura_arma_defecto
 		arma.scale   = _escala_arma_defecto
-
-## Crea un Sprite2D "vacío" por cada slot de equipo, escondido hasta que
-## haya algo puesto ahí. z_index=1 los deja por encima del cuerpo del
-## personaje pero por debajo del arma (z_index=2).
-## Alto REAL (en píxeles, en el espacio local del nodo) del personaje
-## dentro del frame de animación. NO es el tamaño del frame completo
-## (48x48) — ese frame tiene bastante margen transparente alrededor del
-## dibujo real, y además AnimatedSprite2D tiene `offset = Vector2(0, -15)`
-## en la escena, que desplaza el dibujo hacia arriba. Medido directamente
-## sobre Assets/sprites/characters/Player/player.png (frame "Front_Idle"):
-## la cabeza va de y=-17 a y=-9, el cuerpo de y=-9 a y=+4. Si cambias el
-## arte del personaje, hay que volver a medir esto.
-const ALTO_PERSONAJE_PX := 21.0
-
-## Qué fracción de ALTO_PERSONAJE_PX debería ocupar cada pieza por
-## defecto (esto sigue siendo un número porque es sobre el TAMAÑO, no la
-## posición — la posición ahora sale de los Marker2D de la escena, que
-## puedes arrastrar visualmente en vez de escribir números).
-const ALTO_RELATIVO_ARMADURA := {
-	Item.SlotEquipo.CASCO:   0.40,
-	Item.SlotEquipo.PECHERA: 0.55,
-	Item.SlotEquipo.BOTAS:   0.20,
-}
-
-func _crear_overlays_armadura() -> void:
-	for slot_equipo in [Item.SlotEquipo.CASCO, Item.SlotEquipo.PECHERA, Item.SlotEquipo.BOTAS]:
-		var overlay := Sprite2D.new()
-		overlay.name = "ArmaduraVisual_%d" % slot_equipo
-		overlay.z_index = 1
-		overlay.visible = false
-		add_child(overlay)
-		_overlays_armadura[slot_equipo] = overlay
-
-## Devuelve el Marker2D que corresponde a cada slot de equipo — así, si
-## agregas más slots en el futuro, solo hace falta un Marker2D nuevo en la
-## escena y una línea acá.
-func _punto_para_slot_equipo(slot_equipo: int) -> Marker2D:
-	match slot_equipo:
-		Item.SlotEquipo.CASCO:   return punto_casco
-		Item.SlotEquipo.PECHERA: return punto_pechera
-		Item.SlotEquipo.BOTAS:   return punto_botas
-	return null
-
-## Refleja en los overlays lo que haya puesto en Inventory.equipo. Se llama
-## al equipar/desequipar una pieza y también al cambiar el inventario en
-## general (por si la pieza equipada se rompe o se cambia de otra forma).
-##
-## La POSICIÓN sale del Marker2D correspondiente (PuntoCasco/PuntoPechera/
-## PuntoBotas, hijos de Jugador en jugador.tscn) — ábrelos en el editor 2D
-## y arrástralos donde quieras que quede cada pieza; no hay que tocar
-## código ni adivinar números para eso. `offset_en_cuerpo` en el Item
-## sigue existiendo como ajuste fino ENCIMA de la posición del marcador.
-##
-## El TAMAÑO se calcula automáticamente según la resolución de tu imagen
-## (para que no importe si es de 16px o de 512px), y `escala_en_cuerpo`
-## en el Item es el ajuste fino sobre ese tamaño automático.
-func _actualizar_armadura_equipada() -> void:
-	for slot_equipo in _overlays_armadura.keys():
-		var overlay: Sprite2D = _overlays_armadura[slot_equipo]
-		var contenido = Inventory.equipo.get(slot_equipo)
-		if contenido != null and contenido["item"].icono != null:
-			var item: Item  = contenido["item"]
-			var punto: Marker2D = _punto_para_slot_equipo(slot_equipo)
-
-			var alto_textura: float  = item.icono.get_height()
-			var alto_relativo: float = ALTO_RELATIVO_ARMADURA.get(slot_equipo, 0.4)
-			var escala_auto: float   = (ALTO_PERSONAJE_PX * alto_relativo) / alto_textura
-
-			overlay.texture  = item.icono
-			overlay.scale    = Vector2(escala_auto, escala_auto) * item.escala_en_cuerpo
-			overlay.position = (punto.position if punto != null else Vector2.ZERO) + item.offset_en_cuerpo
-			overlay.visible  = true
-		else:
-			overlay.visible = false
 
 func _on_hitbox_arma_body_entered(body: Node2D) -> void:
 	# Solo nos interesan cuerpos que sepan recibir un golpe (enemigos).
