@@ -10,5 +10,7 @@ nombre = "Hacha de leñador"
 descripcion = "Sirve para talar árboles y despejar arbustos que bloquean el camino. Ninguna otra arma puede romperlos."
 icono = ExtResource("1_icono")
 tipo = 1
+escala_en_mano = Vector2(2, 2)
+espejo_en_mano = true
 es_hacha = true
 valor = 3

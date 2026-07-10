@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bi0d7hg7namfx"
+path="res://.godot/imported/Sonido hacha.mp3-e138f8d6fc3e9b0106fe3ce857f957dd.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/Sonido hacha.mp3"
+dest_files=["res://.godot/imported/Sonido hacha.mp3-e138f8d6fc3e9b0106fe3ce857f957dd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
