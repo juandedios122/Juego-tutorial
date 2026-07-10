@@ -108,6 +108,8 @@ func _abrir() -> void:
 	overlay.visible          = true
 	panel_inventario.visible = true
 	get_tree().paused = true
+	if has_node("/root/SFX"):
+		SFX.play("inventory_open")
 
 func _cerrar() -> void:
 	# Si el jugador cierra con algo "en la mano", se lo devolvemos al
@@ -118,6 +120,8 @@ func _cerrar() -> void:
 	overlay.visible          = false
 	panel_inventario.visible = false
 	get_tree().paused = false
+	if has_node("/root/SFX"):
+		SFX.play("inventory_close")
 
 func _on_cambio_escena() -> void:
 	_cerrar()
@@ -329,6 +333,8 @@ func _usar_slot_activo() -> void:
 
 	if jugador != null and item.aplicar_efecto(jugador):
 		Inventory.vaciar_slot(Inventory.slot_activo, 1)
+		if has_node("/root/SFX") and item.id.begins_with("Pocion"):
+			SFX.play("potion_drink")
 
 
 # ═════════════════════════════════════════════════════════════════════════════

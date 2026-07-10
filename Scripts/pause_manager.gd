@@ -163,6 +163,10 @@ func _construir_ui() -> void:
 	boton_pausa.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	boton_pausa.offset_left   = -76
 	boton_pausa.offset_top    = 16
+	boton_pausa.pressed.connect(func():
+		if has_node("/root/SFX"):
+			SFX.play("ui_click")
+	)
 	boton_pausa.offset_right  = -12
 	boton_pausa.offset_bottom = 80
 	boton_pausa.focus_mode = Control.FOCUS_NONE
@@ -409,6 +413,10 @@ func _crear_boton_menu(texto: String) -> Button:
 	btn.text = texto
 	btn.custom_minimum_size = Vector2(0, 48)
 	btn.focus_mode = Control.FOCUS_NONE
+	btn.pressed.connect(func():
+		if has_node("/root/SFX"):
+			SFX.play("ui_click")
+	)
 	return btn
 
 func _label_ajuste(texto: String) -> Label:

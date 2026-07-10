@@ -62,7 +62,7 @@ enum Tipo { CONSUMIBLE, ARMA, MATERIAL, LLAVE, MISC }
 ## descuenta 1 unidad al usarlo, aplicando `efecto` sobre el jugador.
 @export var consumible: bool = false
 
-enum Efecto { NINGUNO, CURAR_VIDA, DAR_XP, DAR_PUNTOS }
+enum Efecto { NINGUNO, CURAR_VIDA, DAR_XP, DAR_PUNTOS, DAR_CORAZONES_TEMP }
 @export var efecto: Efecto = Efecto.NINGUNO
 @export var efecto_valor: int = 0
 
@@ -87,6 +87,13 @@ func aplicar_efecto(jugador: Node) -> bool:
 			return true
 		Efecto.DAR_PUNTOS:
 			Global.sumar_puntos(efecto_valor)
+			return true
+		Efecto.DAR_CORAZONES_TEMP:
+			# Corazones naranjas: vida EXTRA temporal, separada de la vida
+			# normal. Ver jugador.gd → agregar_corazones_temporales().
+			if not jugador.has_method("agregar_corazones_temporales"):
+				return false
+			jugador.agregar_corazones_temporales(efecto_valor)
 			return true
 		_:
 			return false

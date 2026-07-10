@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "Pan"
+nombre = "Pan"
+descripcion = "Alimento horneado. Restaura más vida que una manzana."
+tipo = 0
+stack_max = 10
+consumible = true
+efecto = 1
+efecto_valor = 25
+valor = 2
+metadata/_custom_type_script = "uid://qoqmuduil5ei"

@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://5owtvw0cu153" path="res://Assets/sprites/objects/joystick/SmallHandleFilledGrey.png" id="7_a1883"]
 [ext_resource type="AudioStream" uid="uid://dheotbrmna8hm" path="res://Assets/Music/exploration_theme.mp3" id="8_a1883"]
 [ext_resource type="PackedScene" uid="uid://c84tsdsnykqo3" path="res://Scenes/ItemPickup.tscn" id="9_o2cyc"]
-[ext_resource type="Resource" uid="uid://bbpohhxxht3t2" path="res://Items/Hacha.tres" id="10_atodu"]
+[ext_resource type="Resource" uid="uid://r1r05p8b86oc" path="res://Items/PocionNaranja.tres" id="10_o2cyc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kn5uo"]
 texture = ExtResource("1_ltxq3")
@@ -149,7 +149,7 @@ parameters/looping = true
 
 [node name="ItemPickup" parent="." unique_id=855374071 instance=ExtResource("9_o2cyc")]
 position = Vector2(231, 89)
-item = ExtResource("10_atodu")
+item = ExtResource("10_o2cyc")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

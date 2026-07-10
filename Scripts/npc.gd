@@ -103,6 +103,8 @@ func _abrir_dialogo() -> void:
 	boton_hablar.visible   = false
 	label_nombre.text      = nombre_npc
 	panel_dialogo.visible  = true
+	if has_node("/root/SFX"):
+		SFX.play("npc_talk")
 	_mostrar_linea()
 
 func _avanzar_dialogo() -> void:

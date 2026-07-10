@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "Cristales"
+nombre = "Cristales"
+descripcion = "Fragmento cristalino con energía residual. Material poco común de crafteo."
+tipo = 2
+stack_max = 50
+valor = 4
+metadata/_custom_type_script = "uid://qoqmuduil5ei"

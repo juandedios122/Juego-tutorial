@@ -77,28 +77,8 @@
 
         <profileable
             android:enabled="true"
-            android:shell="true" /> <!-- Records the version of the Godot library -->
-        <meta-data
-            android:name="org.godotengine.library.version"
-            android:value="4.6.1.stable" />
+            android:shell="true" />
 
-        <service android:name="org.godotengine.godot.GodotDownloaderService" />
-
-        <activity
-            android:name="org.godotengine.godot.utils.ProcessPhoenix"
-            android:exported="false"
-            android:process=":phoenix"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="Echoes.Of.Aethelgard.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true" >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/godot_provider_paths" />
-        </provider>
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="Echoes.Of.Aethelgard.androidx-startup"

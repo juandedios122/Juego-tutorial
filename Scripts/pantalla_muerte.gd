@@ -188,6 +188,10 @@ func _crear_boton(texto: String, color_bg: Color) -> Button:
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_font_size_override("font_size", 20)
 	btn.add_theme_color_override("font_color", Color.WHITE)
+	btn.pressed.connect(func():
+		if has_node("/root/SFX"):
+			SFX.play("ui_click")
+	)
 
 	var mk := func(c: Color) -> StyleBoxFlat:
 		var s := StyleBoxFlat.new()

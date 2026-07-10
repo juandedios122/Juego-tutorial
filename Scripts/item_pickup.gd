@@ -45,6 +45,8 @@ func _on_body_entered(body: Node2D) -> void:
 	var sobrante := Inventory.agregar_item(item, cantidad)
 	if sobrante < cantidad:
 		# Entró al menos parte del stack: el pickup desaparece.
+		if has_node("/root/SFX"):
+			SFX.play("pickup")
 		queue_free()
 	# Si sobrante == cantidad, el inventario estaba lleno y el ítem se
 	# queda en el suelo (Inventory ya emitió item_no_cupo para avisar).

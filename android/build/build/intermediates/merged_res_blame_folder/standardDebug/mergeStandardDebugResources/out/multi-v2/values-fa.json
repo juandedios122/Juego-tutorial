@@ -1,25 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "com.godot.game-mergeStandardDebugResources-17:/values-fa/values-fa.xml",
+            "outputFile": "com.godot.game-mergeStandardDebugResources-16:/values-fa/values-fa.xml",
             "map": [
-                {
-                    "source": "C:\\Users\\j3329\\.gradle\\caches\\8.11.1\\transforms\\9c3d72daee7fdd58096de098306f47b9\\transformed\\jetified-godot-lib.template_debug\\res\\values-fa\\values-fa.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,109,183,241,301,370,440,618,791,893,972",
-                        "endColumns": "53,73,57,59,68,69,177,172,101,78,70",
-                        "endOffsets": "104,178,236,296,365,435,613,786,888,967,1038"
-                    },
-                    "to": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "221,275,349,407,467,536,606,784,957,1059,1138",
-                        "endColumns": "53,73,57,59,68,69,177,172,101,78,70",
-                        "endOffsets": "270,344,402,462,531,601,779,952,1054,1133,1204"
-                    }
-                },
                 {
                     "source": "C:\\Users\\j3329\\.gradle\\caches\\8.11.1\\transforms\\1f78652368fcaf22ddb356e4bfe9a15a\\transformed\\core-1.8.0\\res\\values-fa\\values-fa.xml",
                     "from": {

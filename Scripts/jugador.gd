@@ -54,6 +54,10 @@ var enemy_attack_cooldown : bool = true
 # cancelarlo anticipadamente (p.ej. si el jugador muere mientras parpadea).
 var _iframes_tween : Tween = null
 
+# Timer que dispara el sonido de "paso" mientras el jugador camina (creado
+# por código en _ready(), ver más abajo).
+var _pasos_timer : Timer = null
+
 # ─── Sistema de Corazones (HUD) ──────────────────────────────────────────────
 # Cada corazón representa 1/5 de la VIDA MÁXIMA ACTUAL (no un HP fijo), para
 # que el HUD se siga viendo bien aunque max_health crezca con el nivel.
@@ -61,6 +65,18 @@ const MAX_HEARTS : int = 5
 
 var hearts_container : HBoxContainer = null
 var heart_textures   : Array         = []
+
+# ─── Corazones naranjas (vida extra temporal) ────────────────────────────────
+# Vida "extra" que se otorga con la poción naranja. Es un pool APARTE de
+# `health`: el daño se descuenta primero de acá, y NO se regenera con
+# tiempo (a diferencia de `health`, que sí regenera solo). Se mide en las
+# mismas unidades que `health` (puntos de vida), pero se muestra como
+# corazones naranjas adicionales al final de la fila de corazones rojos.
+var vida_temporal        : int = 0
+var vida_temporal_maxima : int = 0
+
+var hearts_temp_container : HBoxContainer = null
+var heart_textures_naranja : Array        = []
 
 # ─── Arma equipada desde el inventario ───────────────────────────────────────
 # Guardamos cómo era $Arma en la escena original (textura y escala) para
@@ -109,11 +125,30 @@ func _ready():
 		atlas.region = Rect2(i * 32, 0, 32, 32)
 		heart_textures.append(atlas)
 
+	# ── Corazón naranja (vida extra temporal) — a diferencia de los rojos,
+	# no hay una tira de 5 estados para el naranja en los assets, así que
+	# usamos un solo ícono "lleno" (Heart_Orange.png) por corazón extra.
+	# Un corazón naranja simplemente desaparece del HUD cuando se gasta,
+	# en vez de mostrarse "vacío" — visualmente más claro para algo temporal.
+	heart_textures_naranja.append(load("res://Assets/sprites/heart/Scaled 2x/Heart_Orange.png"))
+
 	_crear_corazones()
 	_crear_label_nombre()
 
 	# ── Conectar señal de XP para mostrar popup ─────────────────────────────
 	Global.xp_gained.connect(_on_xp_ganado)
+
+	# ── Timer de pasos — se crea por código para no tener que tocar la
+	# escena. Se inicia/detiene solo en player_movement() según si el
+	# jugador se está moviendo o no.
+	_pasos_timer = Timer.new()
+	_pasos_timer.wait_time  = 0.32
+	_pasos_timer.one_shot   = false
+	_pasos_timer.timeout.connect(func():
+		if has_node("/root/SFX"):
+			SFX.play("walk")
+	)
+	add_child(_pasos_timer)
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  NOMBRE DEL JUGADOR
@@ -182,6 +217,16 @@ func _crear_corazones() -> void:
 		corazon.custom_minimum_size = Vector2(32, 32)
 		hearts_container.add_child(corazon)
 
+	# ── Fila de corazones naranjas (vida extra temporal) — separada por un
+	# pequeño espacio de la fila roja, y arranca vacía/oculta: solo aparece
+	# cuando el jugador tiene vida_temporal > 0.
+	hearts_temp_container = HBoxContainer.new()
+	hearts_temp_container.name = "HeartsTempContainer"
+	hearts_temp_container.add_theme_constant_override("separation", 4)
+	hearts_temp_container.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	hearts_temp_container.position = Vector2(10, 68 + 36)
+	canvas.add_child(hearts_temp_container)
+
 	update_hearts()
 
 func update_hearts() -> void:
@@ -209,6 +254,45 @@ func update_hearts() -> void:
 			heart_node.texture = heart_textures[3]
 		else:
 			heart_node.texture = heart_textures[4]
+
+	_actualizar_corazones_temporales()
+
+## Redibuja la fila de corazones naranjas según `vida_temporal`. A diferencia
+## de los rojos (cantidad fija de 5, solo cambia el "relleno"), acá la
+## CANTIDAD de íconos cambia: un corazón naranja por cada hp_per_heart de
+## vida_temporal restante (redondeado hacia arriba, para que el último
+## corazón parcial siga siendo visible hasta que se gaste del todo).
+func _actualizar_corazones_temporales() -> void:
+	if not is_instance_valid(hearts_temp_container):
+		return
+
+	var hp_per_heart: float = float(max_health) / float(MAX_HEARTS)
+	var cantidad_iconos: int = int(ceil(float(vida_temporal) / hp_per_heart)) if vida_temporal > 0 else 0
+
+	# Ajustar la cantidad de nodos hijos a `cantidad_iconos`.
+	while hearts_temp_container.get_child_count() < cantidad_iconos:
+		var corazon := TextureRect.new()
+		corazon.texture             = heart_textures_naranja[0]
+		corazon.stretch_mode        = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		corazon.custom_minimum_size = Vector2(28, 28)
+		hearts_temp_container.add_child(corazon)
+	while hearts_temp_container.get_child_count() > cantidad_iconos:
+		var sobrante := hearts_temp_container.get_child(hearts_temp_container.get_child_count() - 1)
+		hearts_temp_container.remove_child(sobrante)
+		sobrante.queue_free()
+
+	hearts_temp_container.visible = cantidad_iconos > 0
+
+## Otorga (o RENUEVA) `cantidad_corazones` corazones naranjas de vida extra
+## temporal — llamado desde Item.gd al consumir la poción naranja.
+## Nota de diseño: si el jugador ya tenía corazones naranjas, esto los
+## RENUEVA al máximo (no se van sumando sin límite tomando poción tras
+## poción) — evita que "farmear" pociones dé vida extra infinita.
+func agregar_corazones_temporales(cantidad_corazones: int) -> void:
+	var hp_per_heart: float = float(max_health) / float(MAX_HEARTS)
+	vida_temporal_maxima = int(round(cantidad_corazones * hp_per_heart))
+	vida_temporal         = vida_temporal_maxima
+	_actualizar_corazones_temporales()
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  LOOP PRINCIPAL
@@ -254,9 +338,13 @@ func player_movement(delta):
 			current_dir = "down" if input_vector.y > 0 else "up"
 
 		play_anim(1)
+		if _pasos_timer != null and _pasos_timer.is_stopped():
+			_pasos_timer.start()
 	else:
 		velocity = Vector2.ZERO
 		play_anim(0)
+		if _pasos_timer != null and not _pasos_timer.is_stopped():
+			_pasos_timer.stop()
 
 	move_and_slide()
 
@@ -308,6 +396,14 @@ func receive_damage(amount: int) -> void:
 
 	var amount_final: int = amount
 
+	# ── Corazones naranjas primero: el daño se descuenta de ahí antes de
+	# tocar la vida normal. No se regeneran solos (a diferencia de
+	# `health`) — solo otra poción naranja los vuelve a llenar.
+	if vida_temporal > 0:
+		var absorbido: int = min(vida_temporal, amount_final)
+		vida_temporal -= absorbido
+		amount_final  -= absorbido
+
 	health -= amount_final
 	health  = max(0, health)
 
@@ -315,7 +411,7 @@ func receive_damage(amount: int) -> void:
 	enemy_attack_cooldown = false
 	$attack_cooldown.start()
 
-	_show_damage_number(amount_final)
+	_show_damage_number(amount)
 	_iframes_blink()
 	update_hearts()
 
@@ -424,6 +520,9 @@ func Attack():
 		# Avisa al botón de ataque en pantalla para que se bloquee y
 		# muestre el barrido de recarga mientras dura el swing.
 		Global.player_attack_started.emit(attack_cooldown_time)
+
+		if has_node("/root/SFX"):
+			SFX.play("attack")
 
 		var dir = current_dir
 
@@ -589,6 +688,11 @@ func die_and_respawn() -> void:
 	if has_node("tiempo_regeneracion"):
 		$"tiempo_regeneracion".stop()
 	enemy_attack_cooldown = false
+
+	# Los corazones naranjas son temporales — no sobreviven a una muerte.
+	vida_temporal         = 0
+	vida_temporal_maxima  = 0
+	_actualizar_corazones_temporales()
 
 	# Cancelar el parpadeo de i-frames si estaba activo
 	if _iframes_tween != null and _iframes_tween.is_valid():

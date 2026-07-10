@@ -202,6 +202,15 @@ func _conectar_señales() -> void:
 	)
 
 	btn_cerrar_ajustes.pressed.connect(_cerrar_ajustes)
+
+	# Estos botones sueltos no pasan por _conectar_feedback_botones()
+	# (esa animación es solo para los 3 botones principales), así que les
+	# damos el mismo "click" de UI aquí directamente.
+	for btn_suelto in [btn_cerrar_selector, boton_examinar, boton_usar_imagen, btn_cerrar_ajustes]:
+		btn_suelto.pressed.connect(func():
+			if has_node("/root/SFX"):
+				SFX.play("ui_click")
+		)
 	slider_musica.value_changed.connect(_on_volumen_musica)
 	slider_sfx.value_changed.connect(_on_volumen_sfx)
 

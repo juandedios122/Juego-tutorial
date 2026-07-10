@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://r1r05p8b86oc"]
+
+[ext_resource type="Texture2D" uid="uid://b5ntkwbpv1mbc" path="res://Items_png/Posion-vida.png" id="1_4lp7c"]
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "PocionNaranja"
+nombre = "Poción naranja"
+descripcion = "Al beberla otorga 3 corazones naranjas de vida extra temporal. El daño se descuenta primero de esos corazones; una vez perdidos, no se regeneran solos — hace falta otra poción para recuperarlos."
+icono = ExtResource("1_4lp7c")
+tipo = 0
+stack_max = 5
+consumible = true
+efecto = 4
+efecto_valor = 3
+valor = 5
+metadata/_custom_type_script = "uid://qoqmuduil5ei"

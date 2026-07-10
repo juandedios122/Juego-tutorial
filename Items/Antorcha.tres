@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "Antorcha"
+nombre = "Antorcha"
+descripcion = "Ilumina zonas oscuras. Colócala en el mundo (funcionalidad de luz pendiente de implementar)."
+tipo = 4
+stack_max = 20
+valor = 2
+metadata/_custom_type_script = "uid://qoqmuduil5ei"

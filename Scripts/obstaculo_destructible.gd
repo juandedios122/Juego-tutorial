@@ -95,7 +95,7 @@ func _destruir() -> void:
 	_colision.set_deferred("disabled", true)
 
 	if has_node("/root/SFX"):
-		SFX.play("enemy_death")
+		SFX.play("break_object")
 	if has_node("/root/VFX"):
 		VFX.muerte(global_position)
 

@@ -15,6 +15,16 @@ extends Node
 ##   SFX.play("xp")           # ganancia de XP
 ##   SFX.play("level_up")     # subida de nivel (chime)
 ##   SFX.play("ui_click")     # botón de UI
+##   SFX.play("inventory_open")   # abrir inventario
+##   SFX.play("inventory_close")  # cerrar inventario
+##   SFX.play("pickup")           # recoger objeto del suelo
+##   SFX.play("potion_drink")     # consumir poción
+##   SFX.play("walk")             # paso al caminar (se llama en bucle)
+##   SFX.play("break_object")     # romper árbol/arbusto/objeto destructible
+##   SFX.play("door_open")        # abrir puerta
+##   SFX.play("door_close")       # cerrar puerta
+##   SFX.play("npc_talk")         # iniciar diálogo con NPC
+##   SFX.play("chest_open")       # abrir cofre
 
 const SAMPLE_RATE := 22050
 
@@ -184,3 +194,50 @@ func _generar_todos_los_sonidos() -> void:
 	var wc1 := _sine(440.0, 0.12, 15.0, 0.70)  # A4
 	var wc2 := _sine(660.0, 0.18, 10.0, 0.80)  # E5
 	_streams["wave_clear"] = _wav(_concatenar([wc1, wc2]))
+
+	# ── Abrir inventario — dos notas ascendentes cortas ──────────────────────
+	var inv_o1 := _sine(500.0, 0.06, 30.0, 0.55)
+	var inv_o2 := _sine(700.0, 0.08, 25.0, 0.55)
+	_streams["inventory_open"] = _wav(_concatenar([inv_o1, inv_o2]))
+
+	# ── Cerrar inventario — las mismas dos notas pero descendentes ───────────
+	var inv_c1 := _sine(700.0, 0.06, 30.0, 0.50)
+	var inv_c2 := _sine(450.0, 0.08, 25.0, 0.50)
+	_streams["inventory_close"] = _wav(_concatenar([inv_c1, inv_c2]))
+
+	# ── Recoger objeto — "pip" agudo y muy corto ─────────────────────────────
+	_streams["pickup"] = _wav(_sine(950.0, 0.07, 45.0, 0.55))
+
+	# ── Consumir poción — glugh (dos borboteos) + brillo final ───────────────
+	var glu1     := _sine(220.0, 0.07, 30.0, 0.55)
+	var glu2     := _sine(260.0, 0.07, 30.0, 0.55)
+	var brillo   := _sine(900.0, 0.10, 20.0, 0.45)
+	var glugh    := _mezclar(glu1, glu2)
+	_streams["potion_drink"] = _wav(_concatenar([glugh, brillo]))
+
+	# ── Paso al caminar — golpecito seco y grave, muy corto ──────────────────
+	_streams["walk"] = _wav(_ruido(0.05, 60.0, 0.30))
+
+	# ── Romper objeto (árbol/arbusto/obstáculo) — crujido + estallido corto ──
+	var crack   := _ruido(0.14, 22.0, 0.75)
+	var snap    := _sine(140.0, 0.10, 30.0, 0.60)
+	_streams["break_object"] = _wav(_mezclar(crack, snap))
+
+	# ── Abrir puerta — chirrido grave ascendente ──────────────────────────────
+	var puerta_o := _sine(180.0, 0.22, 8.0, 0.45)
+	_streams["door_open"] = _wav(puerta_o)
+
+	# ── Cerrar puerta — golpe seco grave ──────────────────────────────────────
+	var puerta_c1 := _sine(90.0, 0.10, 25.0, 0.70)
+	var puerta_c2 := _ruido(0.06, 40.0, 0.35)
+	_streams["door_close"] = _wav(_mezclar(puerta_c1, puerta_c2))
+
+	# ── Iniciar diálogo con NPC — "blip" suave, dos tonos cortos ─────────────
+	var npc1 := _sine(600.0, 0.05, 35.0, 0.40)
+	var npc2 := _sine(800.0, 0.06, 30.0, 0.45)
+	_streams["npc_talk"] = _wav(_concatenar([npc1, npc2]))
+
+	# ── Abrir cofre — crujido de madera + brillo de recompensa ───────────────
+	var cofre_madera := _ruido(0.12, 20.0, 0.60)
+	var cofre_brillo := _sine(1000.0, 0.15, 12.0, 0.40)
+	_streams["chest_open"] = _wav(_concatenar([cofre_madera, cofre_brillo]))

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "Piedra"
+nombre = "Piedra"
+descripcion = "Roca extraída de un mineral o cantera. Material de construcción/crafteo."
+tipo = 2
+stack_max = 99
+metadata/_custom_type_script = "uid://qoqmuduil5ei"

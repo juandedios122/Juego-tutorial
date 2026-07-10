@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" uid="uid://qoqmuduil5ei" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "Llave"
+nombre = "Llave"
+descripcion = "Abre una puerta o cofre cerrado en algún lugar del mapa."
+tipo = 3
+stack_max = 1
+valor = 0
+metadata/_custom_type_script = "uid://qoqmuduil5ei"
