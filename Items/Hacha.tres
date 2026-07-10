@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Texture2D" path="res://Items_png/Hacha.png" id="1_icono"]
+[ext_resource type="Script" path="res://Scripts/Item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "Hacha"
+nombre = "Hacha de leñador"
+descripcion = "Sirve para talar árboles y despejar arbustos que bloquean el camino. Ninguna otra arma puede romperlos."
+icono = ExtResource("1_icono")
+tipo = 1
+es_hacha = true
+espejo_en_mano = false
+rotacion_en_mano = 0.0
+valor = 3
+metadata/_custom_type_script = "res://Scripts/Item.gd"

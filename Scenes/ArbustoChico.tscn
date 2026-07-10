@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/obstaculo_destructible.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Assets/sprites/objects/obstaculos/arbusto_chico.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arbusto_chico"]
+size = Vector2(20, 14)
+
+[node name="ArbustoChico" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_script")
+vida_maxima = 15
+requiere_hacha = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_arbusto_chico")

@@ -6,6 +6,13 @@ extends CharacterBody2D
 # Daño que inflige cada golpe de espada que conecta de verdad con un enemigo.
 @export var attack_damage: int = 20
 
+# Cuánto dura el "candado" del golpe: desde que empieza el swing hasta que
+# se puede volver a atacar. Es la MISMA duración que usa $deal_attack_timer
+# (se sincronizan solos en _ready(), así que solo hace falta tocar este
+# número). boton_ataque.gd usa este mismo valor para saber cuánto debe
+# durar el barrido gris de "recargando" sobre el botón.
+@export var attack_cooldown_time: float = 0.5
+
 # ─── Progresión por nivel ─────────────────────────────────────────────────────
 # Cada vez que subes de nivel, esto se SUMA a tus stats — el nivel deja de
 # ser cosmético y se vuelve poder real, tal como pide un juego comercial.
@@ -70,6 +77,10 @@ func _ready():
 	$AnimatedSprite2D.play("Front_Idle")
 
 	$attack_cooldown.wait_time = 1.0
+
+	# Única fuente de verdad para cuánto dura el swing: el timer de la
+	# escena queda sincronizado con la variable exportada (ver arriba).
+	$deal_attack_timer.wait_time = attack_cooldown_time
 
 	$"tiempo_regeneracion".wait_time = 2.0
 	$"tiempo_regeneracion".timeout.connect(_on_regeneracion_timeout)
@@ -409,6 +420,10 @@ func Attack():
 		attack_ip = true
 		_golpeados_este_swing.clear()   # nuevo swing → lista de impactos limpia
 		$deal_attack_timer.start()
+
+		# Avisa al botón de ataque en pantalla para que se bloquee y
+		# muestre el barrido de recarga mientras dura el swing.
+		Global.player_attack_started.emit(attack_cooldown_time)
 
 		var dir = current_dir
 

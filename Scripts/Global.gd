@@ -184,6 +184,12 @@ func set_show_death_counter(valor: bool) -> void:
 var current_scene    : String = "Mundo"
 var transition_scene : bool   = false
 
+## Emitida cuando el jugador empieza un swing de ataque, con la duración
+## exacta del cooldown (el mismo tiempo que dura la animación del golpe).
+## boton_ataque.gd la escucha para bloquear el botón y animar el barrido
+## de recarga mientras el golpe todavía se está reproduciendo.
+signal player_attack_started(duracion: float)
+
 var mundo_entry_x : int = 168
 var mundo_entry_y : int = 27
 var cliff_entry_x : int = 223

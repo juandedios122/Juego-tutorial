@@ -52,6 +52,12 @@ enum Tipo { CONSUMIBLE, ARMA, MATERIAL, LLAVE, MISC }
 @export var rotacion_en_mano: float = 0.0
 @export var offset_en_mano: Vector2 = Vector2.ZERO
 
+## Marca esta arma como "hacha" para efectos de gameplay: los obstáculos
+## destructibles (ver obstaculo_destructible.gd) sólo reciben daño real de
+## un ítem con este flag activo — cualquier otra arma rebota sin efecto.
+## Solo tiene sentido si `tipo == ARMA`.
+@export var es_hacha: bool = false
+
 ## Si es true, aparece el botón "Usar" en el panel de acciones y se
 ## descuenta 1 unidad al usarlo, aplicando `efecto` sobre el jugador.
 @export var consumible: bool = false
