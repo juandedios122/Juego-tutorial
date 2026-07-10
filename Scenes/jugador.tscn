@@ -402,7 +402,6 @@ text = "Vivos: 0   Muertos: 0"
 script = ExtResource("5_n4xcq")
 
 [node name="Arma" type="Sprite2D" parent="." unique_id=1933940582]
-visible = false
 position = Vector2(9.999999, -6)
 scale = Vector2(0.40104166, 0.43125)
 texture = SubResource("AtlasTexture_isem0")

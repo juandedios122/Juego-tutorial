@@ -34,9 +34,9 @@ Achievements="*uid://b2nc6jwu3yemi"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/handheld/orientation="landscape"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/handheld/orientation="landscape"
 
 [input]
 
