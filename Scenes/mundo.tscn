@@ -12,7 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dheotbrmna8hm" path="res://Assets/Music/exploration_theme.mp3" id="8_ibak7"]
 [ext_resource type="PackedScene" uid="uid://cuxcigev2tuqc" path="res://Scenes/npc.tscn" id="11_m1vgi"]
 [ext_resource type="PackedScene" path="res://Scenes/ItemPickup.tscn" id="12_6bs12"]
-[ext_resource type="Resource" uid="uid://dm86hw3iwbn65" path="res://Items/Sword.tres" id="13_6bs12"]
+[ext_resource type="Resource" path="res://Items/Hacha.tres" id="13_w4e5f"]
 [ext_resource type="PackedScene" path="res://Scenes/ArbolGrande.tscn" id="14_arbol"]
 [ext_resource type="PackedScene" path="res://Scenes/ArbustoAlto.tscn" id="15_arbusto_alto"]
 [ext_resource type="PackedScene" path="res://Scenes/ArbustoChico.tscn" id="16_arbusto_chico"]
@@ -165,16 +165,16 @@ z_index = 1
 position = Vector2(306, 108)
 
 [node name="ItemPickup" parent="." unique_id=1175325451 instance=ExtResource("12_6bs12")]
-position = Vector2(1401, 213)
-item = ExtResource("13_6bs12")
+position = Vector2(133, 124)
+item = ExtResource("13_w4e5f")
 
-[node name="ArbolGrande" parent="." instance=ExtResource("14_arbol")]
+[node name="ArbolGrande" parent="." unique_id=1565689796 instance=ExtResource("14_arbol")]
 position = Vector2(150, 90)
 
-[node name="ArbustoAlto" parent="." instance=ExtResource("15_arbusto_alto")]
+[node name="ArbustoAlto" parent="." unique_id=1917751277 instance=ExtResource("15_arbusto_alto")]
 position = Vector2(220, 130)
 
-[node name="ArbustoChico" parent="." instance=ExtResource("16_arbusto_chico")]
+[node name="ArbustoChico" parent="." unique_id=1563278137 instance=ExtResource("16_arbusto_chico")]
 position = Vector2(180, 160)
 
 [connection signal="body_entered" from="Cliffside_transition" to="." method="_on_cliffside_transition_body_entered"]
