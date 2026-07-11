@@ -21,7 +21,7 @@ config/icon="uid://cshd1fxda0fje"
 
 Global="*uid://bw40qe0ovg0s"
 Inventory="*res://Scripts/Inventory.gd"
-InventoryUI="*res://Scripts/InventoryUI.gd"
+InventoryUI="*res://Scenes/UI/InventoryUI.tscn"
 EnemyPool="*res://Scripts/EnemyPool.gd"
 PauseManager="*res://Scripts/pause_manager.gd"
 SceneTransition="*res://Scripts/SceneTransition.gd"
